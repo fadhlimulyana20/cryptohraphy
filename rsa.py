@@ -63,8 +63,6 @@ if __name__=="__main__":
 
     public_key = generate_public_key(p, q)
     private_key = generate_private_key(p, q, public_key[1], 2)
-    print(private_key)
-    print(public_key)
 
     c = encrypt_data("hi", public_key[0], public_key[1])
 
