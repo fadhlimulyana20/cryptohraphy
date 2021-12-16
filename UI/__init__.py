@@ -8,3 +8,13 @@ from UI.controllers import *
 def index():
     if request.method == "GET": 
         return render_template('index.html')
+
+@app.route('/ecc', methods=['GET'])
+def ecc():
+    if request.method == "GET": 
+        return render_template('ecc.html')
+
+@app.route('/ntru', methods=['GET'])
+def ntru():
+    if request.method == "GET": 
+        return render_template('ntru.html')
