@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}" />
   </head>
   <body>
+    <form action="" id="generateKey"></form>
+
     <div class="container">
       <h2>RSA Encryption and Decryption</h2>
       <hr />
@@ -16,8 +18,8 @@
         <p>Generated Public/Private key</p>
         <div class="row">
           <textarea
-            name="key"
-            id="key"
+            name="public_key"
+            id="public_key"
             cols="30"
             rows="5"
             placeholder="Generated public key will be visible here"
@@ -25,15 +27,15 @@
           ></textarea>
           <hr />
           <textarea
-            name="key"
-            id="key"
+            name="private_key"
+            id="private_key"
             cols="30"
             rows="5"
             placeholder="Generated private key will be visible here"
             readonly
           ></textarea>
         </div>
-        <button>Generate</button>
+        <button id="generate_key">Generate</button>
       </div>
       <hr />
       <div class="row">
@@ -76,5 +78,23 @@
         ></textarea>
       </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      const generateKeyBtn = document.getElementById("generate_key")
+      generateKeyBtn.addEventListener('click', async function() {
+        try{
+          const res = await axios.post('/rsa/generate-key')
+          if (res.status == 200) {
+            const privateKeyTextArea = document.getElementById('private_key')
+            privateKeyTextArea.innerHTML = res.data.private_key
+
+            const publicKeyTextArea = document.getElementById('public_key')
+            publicKeyTextArea.innerHTML = `n: ${res.data.public_key.n}, e: ${res.data.public_key.e}`
+          }
+        }catch(e) {
+            alert(e)
+        }
+      })
+    </script>
   </body>
 </html>

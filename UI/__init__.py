@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-# from UI.controllers import *
+from UI.controllers import *
 
 @app.route('/', methods=['GET'])
 def index():
