@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RSA, ECC, NTRU</title>
+
+    <link rel="stylesheet" href="static/index.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h2>RSA Encryption and Decryption</h2>
+      <hr />
+      <div class="keys">
+        <p>Generated Public/Private key</p>
+        <div class="row">
+          <textarea
+            name="key"
+            id="key"
+            cols="30"
+            rows="5"
+            placeholder="Generated public key will be visible here"
+            readonly
+          ></textarea>
+          <hr />
+          <textarea
+            name="key"
+            id="key"
+            cols="30"
+            rows="5"
+            placeholder="Generated private key will be visible here"
+            readonly
+          ></textarea>
+        </div>
+        <button>Generate</button>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="form enkrip">
+          <h3>Encryption</h3>
+          <p>Enter Plain text</p>
+          <textarea
+            name="plain"
+            id="plain"
+            cols="30"
+            rows="5"
+            placeholder="Enter plain text"
+          ></textarea>
+          <button>Encrypt</button>
+        </div>
+        <hr />
+        <div class="form dekrip">
+          <h3>Decryption</h3>
+          <p>Enter Encrypted text</p>
+          <textarea
+            name="encrpyted"
+            id="encrpyted"
+            cols="30"
+            rows="5"
+            placeholder="Enter encrpyted text"
+          ></textarea>
+          <button>Decrypt</button>
+        </div>
+      </div>
+      <hr />
+      <div class="result">
+        <p>Output</p>
+        <textarea
+          name="res"
+          id="res"
+          cols="80"
+          rows="5"
+          placeholder="Output text will be visible here"
+          readonly
+        ></textarea>
+      </div>
+    </div>
+  </body>
+</html>
