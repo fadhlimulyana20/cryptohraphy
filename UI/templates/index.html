@@ -6,25 +6,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RSA, ECC, NTRU</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='index.css') }}"
+    />
   </head>
   <body>
-    <form action="" id="generateKey"></form>
-
     <div class="container">
       <h2>RSA Encryption and Decryption</h2>
       <hr />
       <div class="keys">
         <p>Generated Public/Private key</p>
         <div class="row">
-          <textarea
-            name="public_key"
-            id="public_key"
-            cols="30"
-            rows="5"
-            placeholder="Generated public key will be visible here"
-            readonly
-          ></textarea>
+          <div class="column">
+            <div class="row">
+              <p>n =</p>
+              <textarea
+                name="public_key_n"
+                id="public_key_n"
+                cols="20"
+                rows="1"
+                placeholder="Public key n"
+                readonly
+              ></textarea>
+            </div>
+            <div class="row">
+              <p>e =</p>
+              <textarea
+                name="public_key_e"
+                id="public_key_e"
+                cols="20"
+                rows="1"
+                placeholder="Public key e"
+                readonly
+              ></textarea>
+            </div>
+          </div>
           <hr />
           <textarea
             name="private_key"
@@ -49,20 +66,20 @@
             rows="5"
             placeholder="Enter plain text"
           ></textarea>
-          <button>Encrypt</button>
+          <button id="encrypt">Encrypt</button>
         </div>
         <hr />
         <div class="form dekrip">
           <h3>Decryption</h3>
           <p>Enter Encrypted text</p>
           <textarea
-            name="encrpyted"
-            id="encrpyted"
+            name="encrypted"
+            id="encrypted"
             cols="30"
             rows="5"
             placeholder="Enter encrpyted text"
           ></textarea>
-          <button>Decrypt</button>
+          <button id="decrypt">Decrypt</button>
         </div>
       </div>
       <hr />
@@ -80,21 +97,71 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-      const generateKeyBtn = document.getElementById("generate_key")
-      generateKeyBtn.addEventListener('click', async function() {
-        try{
-          const res = await axios.post('/rsa/generate-key')
+      // Untuk generate public dan private key
+      const generateKeyBtn = document.getElementById("generate_key");
+      generateKeyBtn.addEventListener("click", async function () {
+        try {
+          const res = await axios.post("/rsa/generate-key");
           if (res.status == 200) {
-            const privateKeyTextArea = document.getElementById('private_key')
-            privateKeyTextArea.innerHTML = res.data.private_key
+            const privateKeyTextArea = document.getElementById("private_key");
+            privateKeyTextArea.innerHTML = res.data.private_key;
 
-            const publicKeyTextArea = document.getElementById('public_key')
-            publicKeyTextArea.innerHTML = `n: ${res.data.public_key.n}, e: ${res.data.public_key.e}`
+            const publicKeyNTextArea = document.getElementById("public_key_n");
+            publicKeyNTextArea.innerHTML = res.data.public_key.n;
+
+            const publicKeyETextArea = document.getElementById("public_key_e");
+            publicKeyETextArea.innerHTML = res.data.public_key.e;
           }
-        }catch(e) {
-            alert(e)
+        } catch (e) {
+          alert(e);
         }
-      })
+      });
+
+      // Untuk encrypt
+      const encryptBtn = document.getElementById("encrypt");
+      encryptBtn.addEventListener("click", async function () {
+        try {
+          const publicKeyNTextArea = document.getElementById("public_key_n");
+          const publicKeyETextArea = document.getElementById("public_key_e");
+          const plainTextArea = document.getElementById("plain");
+          console.log(plainTextArea.value);
+          const res = await axios.post("/rsa/encrypt", {
+            n: publicKeyNTextArea.innerHTML,
+            e: publicKeyETextArea.innerHTML,
+            plain: plainTextArea.value
+          });
+          if (res.status == 200) {
+            const resultTextArea = document.getElementById("res");
+            resultTextArea.innerHTML = res.data.encrypted.join(" ");
+          }
+        } catch (e) {
+          alert(e);
+        }
+      });
+
+      // Untuk decrypt
+      const decryptBtn = document.getElementById("decrypt");
+      decryptBtn.addEventListener("click", async function () {
+        try {
+          const publicKeyNTextArea = document.getElementById("public_key_n");
+          const publicKeyETextArea = document.getElementById("public_key_e");
+          const privateKeyTextArea = document.getElementById("private_key");
+          const encryptedTextArea = document.getElementById("encrypted");
+          console.log(encryptedTextArea.value);
+          const res = await axios.post("/rsa/decrypt", {
+            n: publicKeyNTextArea.innerHTML,
+            e: publicKeyETextArea.innerHTML,
+            private_key: privateKeyTextArea.innerHTML,
+            encrypted: encryptedTextArea.value
+          });
+          if (res.status == 200) {
+            const resultTextArea = document.getElementById("res");
+            resultTextArea.innerHTML = res.data.decrypted.join(" ");
+          }
+        } catch (e) {
+          alert(e);
+        }
+      });
     </script>
   </body>
 </html>

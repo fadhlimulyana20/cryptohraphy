@@ -32,6 +32,13 @@ h2 {
     margin-bottom: 20px;
 }
 
+.column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+}
+
 .row {
   display: flex;
   justify-content: center;
