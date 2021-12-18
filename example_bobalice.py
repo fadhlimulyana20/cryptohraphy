@@ -1,6 +1,7 @@
 # Description of this example is provided in NTRU.md
 
 from ntru import *
+import numpy as np
 
 #Bob
 print ("Bob Will Generate his Public Key using Parameters")
@@ -19,7 +20,16 @@ print ("-------------------------------------------------")
 #Alice
 Alice=Ntru(7,29,491531)
 Alice.setPublicKey(pub_key)
-msg=[1,0,1,0,1,1,1]
+
+
+# msg=[1,0,1,0,1,1,1]
+msg0 = "Hello World!"
+msg1 = list(msg0.encode('ascii'))
+msg2 = tuple(msg1)
+print(msg2)
+msg = np.poly(msg2)
+
+
 print ("Alice's Original Message   : ",msg)
 ranPol=[-1,-1,1,1]
 print ("Alice's Random Polynomial  : ",ranPol)
