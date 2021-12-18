@@ -13,48 +13,85 @@
   </head>
   <body>
     <div class="container">
-      <h2>NTRU Encryption and Decryption</h2>
+      <h2>NTRU</h2>
       <hr />
       <div class="arow">
         <div class="column">
           <div class="keys">
             <p>Generated Public/Private key</p>
-            <div class="arow">
-              <div class="acolumn">
-                <div class="row">
-                  <p>n =</p>
-                  <textarea
-                    name="public_key_n"
-                    id="public_key_n"
-                    cols="20"
-                    rows="1"
-                    placeholder="Public key n"
-                    readonly
-                  ></textarea>
+            <div class="acolumn">
+              <div class="arow">
+                <div class="acolumn">
+                  <div class="row">
+                    <p>n =</p>
+                    <textarea
+                      name="public_key_n"
+                      id="public_key_n"
+                      cols="20"
+                      rows="1"
+                      placeholder="Public key n"
+                      readonly
+                    ></textarea>
+                  </div>
+                  <div class="row">
+                    <p>p =</p>
+                    <textarea
+                      name="public_key_p"
+                      id="public_key_p"
+                      cols="20"
+                      rows="1"
+                      placeholder="Public key p"
+                      readonly
+                    ></textarea>
+                  </div>
+                  <div class="row">
+                    <p>q =</p>
+                    <textarea
+                      name="public_key_q"
+                      id="public_key_q"
+                      cols="20"
+                      rows="1"
+                      placeholder="Public key q"
+                      readonly
+                    ></textarea>
+                  </div>
                 </div>
-                <div class="row">
-                  <p>e =</p>
-                  <textarea
-                    name="public_key_e"
-                    id="public_key_e"
-                    cols="20"
-                    rows="1"
-                    placeholder="Public key e"
-                    readonly
-                  ></textarea>
+                <hr />
+                <div class="acolumn">
+                  <div class="row">
+                    <p>f(x) =</p>
+                    <textarea
+                      name="poli_f"
+                      id="poli_f"
+                      cols="20"
+                      rows="1"
+                      placeholder="Polinomial f(x)"
+                      readonly
+                    ></textarea>
+                  </div>
+                  <div class="row">
+                    <p>g(x) =</p>
+                    <textarea
+                      name="poli_g"
+                      id="poli_g"
+                      cols="20"
+                      rows="1"
+                      placeholder="Polinomial g(x)"
+                      readonly
+                    ></textarea>
+                  </div>
                 </div>
               </div>
-              <hr />
               <textarea
-                name="private_key"
-                id="private_key"
-                cols="30"
-                rows="5"
-                placeholder="Generated private key will be visible here"
+                name="public_key"
+                id="public_key"
+                cols="20"
+                rows="1"
+                placeholder="Public key"
                 readonly
               ></textarea>
+              <button id="generate_key">Generate</button>
             </div>
-            <button id="generate_key">Generate</button>
           </div>
           <hr />
           <div class="arow">
@@ -159,7 +196,7 @@
             resultTextArea.innerHTML = res.data.encrypted.join(" ");
           }
         } catch (e) {
-          alert(e);
+          alert("Key has not been generated");
         }
       });
 
@@ -183,7 +220,7 @@
             resultTextArea.innerHTML = res.data.decrypted.join("");
           }
         } catch (e) {
-          alert(e);
+          alert("Key has not been generated");
         }
       });
     </script>
