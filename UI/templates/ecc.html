@@ -20,30 +20,30 @@
           <div class="keys">
             <p>Generated Public/Private key</p>
             <div class="arow">
-              <textarea
-                name="public_key"
-                id="public_key"
-                cols="30"
-                rows="5"
-                placeholder="Generated public key will be visible here"
-                readonly
-              ></textarea>
-              <!-- <div class="acolumn">
+              <div class="acolumn">
                 <div class="row">
-                  <p>n =</p>
-                </div>
-                <div class="row">
-                  <p>e =</p>
+                  <p>x =</p>
                   <textarea
-                    name="public_key_e"
-                    id="public_key_e"
+                    name="public_key_x"
+                    id="public_key_x"
                     cols="20"
                     rows="1"
-                    placeholder="Public key e"
+                    placeholder="Public key x"
                     readonly
                   ></textarea>
                 </div>
-              </div> -->
+                <div class="row">
+                  <p>y =</p>
+                  <textarea
+                    name="public_key_y"
+                    id="public_key_y"
+                    cols="20"
+                    rows="1"
+                    placeholder="Public key y"
+                    readonly
+                  ></textarea>
+                </div>
+              </div>
               <hr />
               <textarea
                 name="private_key"
@@ -127,14 +127,15 @@
         try {
           const res = await axios.post("/ecc/generate-key");
           if (res.status == 200) {
+            console.log(res.data)
             const privateKeyTextArea = document.getElementById("private_key");
             privateKeyTextArea.innerHTML = res.data.private_key;
 
-            const publicKeyTextArea = document.getElementById("public_key");
-            publicKeyTextArea.innerHTML = res.data.public_key;
+            const publicKeyXTextArea = document.getElementById("public_key_x");
+            publicKeyXTextArea.innerHTML = res.data.public_key.x;
 
-            // const publicKeyETextArea = document.getElementById("public_key_e");
-            // publicKeyETextArea.innerHTML = res.data.public_key.e;
+            const publicKeyYTextArea = document.getElementById("public_key_y");
+            publicKeyYTextArea.innerHTML = res.data.public_key.y;
           }
         } catch (e) {
           alert(e);

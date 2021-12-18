@@ -50,6 +50,10 @@ if __name__=="__main__":
     print("Private Key:", privKey)
     print("")
 
+    # print(curve)
+
+    print(Point(curve, pubKey.x, pubKey.y))
+
     encryptedMsg = encrypt_ECC(msg, pubKey)
     encryptedMsgObj = {
         'ciphertext': binascii.hexlify(encryptedMsg[0]),

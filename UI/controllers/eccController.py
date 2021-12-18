@@ -7,7 +7,10 @@ import secrets
 @app.route('/ecc/generate-key', methods=['POST'])
 def generate_ecc_key():
     data = {
-        "public_key": {},
+        "public_key": {
+            "x": {},
+            "y": {}
+        },
         "private_key": {}
     }
     if request.method == "POST":
@@ -16,7 +19,8 @@ def generate_ecc_key():
         pubKey = privKey * curve.g
         # Assign data
         data['private_key'] = privKey
-        data['public_key'] = str(pubKey)
+        data['public_key']['x'] = pubKey.x
+        data['public_key']['y'] = pubKey.y
         # Return data
         return data
 
