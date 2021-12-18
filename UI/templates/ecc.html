@@ -146,18 +146,18 @@
       const encryptBtn = document.getElementById("encrypt");
       encryptBtn.addEventListener("click", async function () {
         try {
-          const publicKeyNTextArea = document.getElementById("public_key_n");
-          const publicKeyETextArea = document.getElementById("public_key_e");
+          const publicKeyXTextArea = document.getElementById("public_key_x");
+          const publicKeyYTextArea = document.getElementById("public_key_y");
           const plainTextArea = document.getElementById("plain");
           console.log(plainTextArea.value);
-          const res = await axios.post("/rsa/encrypt", {
-            n: publicKeyNTextArea.innerHTML,
-            e: publicKeyETextArea.innerHTML,
+          const res = await axios.post("/ecc/encrypt", {
+            public_key_x: publicKeyXTextArea.innerHTML,
+            public_key_y: publicKeyYTextArea.innerHTML,
             plain: plainTextArea.value,
           });
           if (res.status == 200) {
             const resultTextArea = document.getElementById("res");
-            resultTextArea.innerHTML = res.data.encrypted.join(" ");
+            resultTextArea.innerHTML = res.data.encrypted
           }
         } catch (e) {
           alert(e);
