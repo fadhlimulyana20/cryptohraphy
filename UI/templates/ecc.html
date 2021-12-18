@@ -98,6 +98,10 @@
             placeholder="Output text will be visible here"
             readonly
           ></textarea>
+          <input type="hidden" name="authTag" id="authTag">
+          <input type="hidden" name="nonce" id="nonce">
+          <input type="hidden" name="ciphertextPubKeyX" id="ciphertextPubKeyX">
+          <input type="hidden" name="ciphertextPubKeyY" id="ciphertextPubKeyY">
           <button id="copy">Copy</button>
         </div>
       </div>
@@ -158,8 +162,20 @@
             plain: plainTextArea.value,
           });
           if (res.status == 200) {
+            console.log(res.data)
             const resultTextArea = document.getElementById("res");
-            resultTextArea.innerHTML = res.data.encrypted
+            resultTextArea.innerHTML = res.data.ciphertext
+
+            const authTag = document.getElementById("authTag");
+            authTag.value = res.data.authTag
+
+            const nonce = document.getElementById("nonce");
+            nonce.value = res.data.nonce
+
+            const ciphertextPubKeyX = document.getElementById("ciphertextPubKeyX");
+            ciphertextPubKeyX.value = res.data.ciphertextPubKey.x
+            const ciphertextPubKeyY = document.getElementById("ciphertextPubKeyY");
+            ciphertextPubKeyY.value = res.data.ciphertextPubKey.y
           }
         } catch (e) {
           alert(e);
@@ -172,18 +188,30 @@
         try {
           const publicKeyXTextArea = document.getElementById("public_key_x");
           const publicKeyYTextArea = document.getElementById("public_key_y");
+          const plainTextArea = document.getElementById("plain");
           const privateKeyTextArea = document.getElementById("private_key");
           const encryptedTextArea = document.getElementById("encrypted");
+          const authTag = document.getElementById("authTag");
+          const nonce = document.getElementById("nonce");
+          const ciphertextPubKeyX = document.getElementById("ciphertextPubKeyX");
+          const ciphertextPubKeyY = document.getElementById("ciphertextPubKeyY");
           console.log(encryptedTextArea.value);
           const res = await axios.post("/ecc/decrypt", {
-            n: publicKeyXTextArea.innerHTML,
-            e: publicKeyYTextArea.innerHTML,
+            x: publicKeyXTextArea.innerHTML,
+            y: publicKeyYTextArea.innerHTML,
+            plain: plainTextArea.value,
             private_key: privateKeyTextArea.innerHTML,
-            encrypted: encryptedTextArea.value,
+            ciphertext: encryptedTextArea.value,
+            authTag: authTag.value,
+            nonce: nonce.value,
+            ciphertextPubKey: {
+              x: ciphertextPubKeyX.value,
+              y: ciphertextPubKeyY.value
+            }
           });
           if (res.status == 200) {
             const resultTextArea = document.getElementById("res");
-            resultTextArea.innerHTML = res.data.decrypted.join("");
+            resultTextArea.innerHTML = res.data.decrypted
           }
         } catch (e) {
           alert(e);

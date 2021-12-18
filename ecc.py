@@ -55,6 +55,8 @@ if __name__=="__main__":
     # print(Point(curve, 33188084935718721586253417317385556586978377471735549632597711170147876769960, 28884836925439573423809771337372983380842880381421140302938034862970615955719))
 
     encryptedMsg = encrypt_ECC(msg, pubKey)
+    # print(encryptedMsg[3])
+    print("")
     encryptedMsgObj = {
         'ciphertext': binascii.hexlify(encryptedMsg[0]),
         'nonce': binascii.hexlify(encryptedMsg[1]),
