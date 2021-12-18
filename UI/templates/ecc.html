@@ -19,42 +19,44 @@
         <div class="column">
           <div class="keys">
             <p>Generated Public/Private key</p>
-            <div class="arow">
-              <div class="acolumn">
-                <div class="row">
-                  <p>x =</p>
-                  <textarea
-                    name="public_key_x"
-                    id="public_key_x"
-                    cols="20"
-                    rows="1"
-                    placeholder="Public key x"
-                    readonly
-                  ></textarea>
+            <div class="acolumn">
+              <div class="arow">
+                <div class="acolumn">
+                  <div class="row">
+                    <p>x =</p>
+                    <textarea
+                      name="public_key_x"
+                      id="public_key_x"
+                      cols="20"
+                      rows="1"
+                      placeholder="Public key x"
+                      readonly
+                    ></textarea>
+                  </div>
+                  <div class="row">
+                    <p>y =</p>
+                    <textarea
+                      name="public_key_y"
+                      id="public_key_y"
+                      cols="20"
+                      rows="1"
+                      placeholder="Public key y"
+                      readonly
+                    ></textarea>
+                  </div>
                 </div>
-                <div class="row">
-                  <p>y =</p>
-                  <textarea
-                    name="public_key_y"
-                    id="public_key_y"
-                    cols="20"
-                    rows="1"
-                    placeholder="Public key y"
-                    readonly
-                  ></textarea>
-                </div>
+                <hr />
+                <textarea
+                  name="private_key"
+                  id="private_key"
+                  cols="30"
+                  rows="5"
+                  placeholder="Generated private key will be visible here"
+                  readonly
+                ></textarea>
               </div>
-              <hr />
-              <textarea
-                name="private_key"
-                id="private_key"
-                cols="30"
-                rows="5"
-                placeholder="Generated private key will be visible here"
-                readonly
-              ></textarea>
+              <button id="generate_key">Generate</button>
             </div>
-            <button id="generate_key">Generate</button>
           </div>
           <hr />
           <div class="arow">
@@ -127,7 +129,7 @@
         try {
           const res = await axios.post("/ecc/generate-key");
           if (res.status == 200) {
-            console.log(res.data)
+            console.log(res.data);
             const privateKeyTextArea = document.getElementById("private_key");
             privateKeyTextArea.innerHTML = res.data.private_key;
 
@@ -151,8 +153,8 @@
           const plainTextArea = document.getElementById("plain");
           console.log(plainTextArea.value);
           const res = await axios.post("/ecc/encrypt", {
-            n: publicKeyXTextArea.innerHTML,
-            e: publicKeyYTextArea.innerHTML,
+            x: publicKeyXTextArea.innerHTML,
+            y: publicKeyYTextArea.innerHTML,
             plain: plainTextArea.value,
           });
           if (res.status == 200) {

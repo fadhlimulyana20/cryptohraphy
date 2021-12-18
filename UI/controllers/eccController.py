@@ -1,3 +1,4 @@
+import binascii
 from flask import request
 from tinyec.ec import Point
 from UI import app
@@ -32,17 +33,23 @@ def encrypt_ecc():
     res = {
         "encrypted": {}
     }
+    
     if request.method == "POST":
+        curve = registry.get_curve('brainpoolP256r1')
+        pubKey = Point(curve, int(request_data['x']), int(request_data['y']))
         print(request_data)
-
-        public_key = {
-            "x": int(request_data['x']), 
-            "y": int(request_data['y'])
-        }
 
         message = request_data['plain']
         
-        res["encrypted"] = encrypt_ECC(message, public_key)
+        encryptedMsg = encrypt_ECC(message, pubKey)
+        encryptedMsgObj = {
+            'ciphertext': binascii.hexlify(encryptedMsg[0]),
+            'nonce': binascii.hexlify(encryptedMsg[1]),
+            'authTag': binascii.hexlify(encryptedMsg[2]),
+            'ciphertextPubKey': hex(encryptedMsg[3].x) + hex(encryptedMsg[3].y % 2)[2:]
+        }
+
+        res["encrypted"] = encryptedMsgObj["ciphertext"]
         print(res)
 
         return res
