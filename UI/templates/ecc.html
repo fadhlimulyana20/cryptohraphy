@@ -20,17 +20,17 @@
           <div class="keys">
             <p>Generated Public/Private key</p>
             <div class="arow">
-              <div class="acolumn">
+              <textarea
+                name="public_key"
+                id="public_key"
+                cols="30"
+                rows="5"
+                placeholder="Generated public key will be visible here"
+                readonly
+              ></textarea>
+              <!-- <div class="acolumn">
                 <div class="row">
                   <p>n =</p>
-                  <textarea
-                    name="public_key_n"
-                    id="public_key_n"
-                    cols="20"
-                    rows="1"
-                    placeholder="Public key n"
-                    readonly
-                  ></textarea>
                 </div>
                 <div class="row">
                   <p>e =</p>
@@ -43,7 +43,7 @@
                     readonly
                   ></textarea>
                 </div>
-              </div>
+              </div> -->
               <hr />
               <textarea
                 name="private_key"
@@ -125,16 +125,16 @@
       const generateKeyBtn = document.getElementById("generate_key");
       generateKeyBtn.addEventListener("click", async function () {
         try {
-          const res = await axios.post("/rsa/generate-key");
+          const res = await axios.post("/ecc/generate-key");
           if (res.status == 200) {
             const privateKeyTextArea = document.getElementById("private_key");
             privateKeyTextArea.innerHTML = res.data.private_key;
 
-            const publicKeyNTextArea = document.getElementById("public_key_n");
-            publicKeyNTextArea.innerHTML = res.data.public_key.n;
+            const publicKeyTextArea = document.getElementById("public_key");
+            publicKeyTextArea.innerHTML = res.data.public_key;
 
-            const publicKeyETextArea = document.getElementById("public_key_e");
-            publicKeyETextArea.innerHTML = res.data.public_key.e;
+            // const publicKeyETextArea = document.getElementById("public_key_e");
+            // publicKeyETextArea.innerHTML = res.data.public_key.e;
           }
         } catch (e) {
           alert(e);

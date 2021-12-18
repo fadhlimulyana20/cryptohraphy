@@ -2,6 +2,8 @@ from tinyec import registry
 from Crypto.Cipher import AES
 import hashlib, secrets, binascii
 
+from tinyec.ec import Point
+
 def encrypt_AES_GCM(msg, secretKey):
     aesCipher = AES.new(secretKey, AES.MODE_GCM)
     ciphertext, authTag = aesCipher.encrypt_and_digest(msg)
@@ -41,6 +43,12 @@ if __name__=="__main__":
     print("")
     privKey = secrets.randbelow(curve.field.n)
     pubKey = privKey * curve.g
+
+    print("Public Key:", pubKey.curve)
+    print("Public Key x:", pubKey.x)
+    print("Public Key y:", pubKey.y)
+    print("Private Key:", privKey)
+    print("")
 
     encryptedMsg = encrypt_ECC(msg, pubKey)
     encryptedMsgObj = {
