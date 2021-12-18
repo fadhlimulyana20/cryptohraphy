@@ -31,7 +31,10 @@ def generate_ecc_key():
 def encrypt_ecc():
     request_data = request.get_json()
     res = {
-        "encrypted": {}
+        'ciphertext': {},
+        'nonce': {},
+        'authTag': {},
+        'ciphertextPubKey': {}
     }
     
     if request.method == "POST":
@@ -49,7 +52,13 @@ def encrypt_ecc():
             'ciphertextPubKey': hex(encryptedMsg[3].x) + hex(encryptedMsg[3].y % 2)[2:]
         }
 
-        res["encrypted"] = str(encryptedMsgObj['ciphertext'].decode('utf-8'))
+        res['ciphertext'] = str(encryptedMsgObj['ciphertext'].decode('utf-8'))
+        res['nonce'] = str(encryptedMsgObj['nonce'].decode('utf-8'))
+        res['authTag'] = str(encryptedMsgObj['authTag'].decode('utf-8'))
+        res['ciphertextPubKey'] = {
+            'x': str(encryptedMsg[3].x),
+            'y': str(encryptedMsg[3].y)
+        }
         print(res)
 
         return res
@@ -61,19 +70,36 @@ def decrypt_ecc():
         "decrypted": {}
     }
     if request.method == "POST":
+        # print(request_data)
+
+        # ciphertext = request_data['ciphertext']
+        # nonce = request_data['nonce']
+        # authTag = request_data['authTag']
+        # ciphertextPubKey = request_data['ciphertextPubKey']
+
+        # curve = registry.get_curve('brainpoolP256r1')
+        # pubKey = Point(curve, int(request_data['x']), int(request_data['y']))
+
+        # encryptedMsgObj = (
+        #     bytes(ciphertext, 'utf-8'),
+        #     bytes(nonce, 'utf-8'),
+        #     bytes(authTag, 'utf-8'),
+        #     pubKey
+        # )
+
+        private_key = int(request_data['private_key'])
+        # decryptedMsg = decrypt_ECC(encryptedMsgObj, private_key)
+        
+        # res["decrypted"] = str(decryptedMsg.decode('utf-8'))
+        # print(res)
+
+        curve = registry.get_curve('brainpoolP256r1')
+        pubKey = Point(curve, int(request_data['x']), int(request_data['y']))
         print(request_data)
 
-        public_key = {
-            "x": int(request_data['x']), 
-            "y": int(request_data['y'])
-        }
-        private_key = int(request_data['private_key'])
+        message = request_data['plain']
 
-        message = request_data['encrypted'].split()
-        map_message = map(int, message)
-        list_message = list(map_message)
-        
-        res["decrypted"] = decrypt_ECC(list_message, private_key, public_key)
-        print(res)
-
+        encryptedMsg = encrypt_ECC(bytes(message, 'utf-8'), pubKey)
+        decryptedMsg = decrypt_ECC(encryptedMsg, private_key)
+        res['decrypted'] = decryptedMsg.decode('utf-8')
         return res
