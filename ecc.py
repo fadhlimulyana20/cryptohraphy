@@ -52,7 +52,7 @@ if __name__=="__main__":
 
     # print(curve)
 
-    print(Point(curve, pubKey.x, pubKey.y))
+    # print(Point(curve, 33188084935718721586253417317385556586978377471735549632597711170147876769960, 28884836925439573423809771337372983380842880381421140302938034862970615955719))
 
     encryptedMsg = encrypt_ECC(msg, pubKey)
     encryptedMsgObj = {

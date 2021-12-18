@@ -19,8 +19,8 @@ def generate_ecc_key():
         pubKey = privKey * curve.g
         # Assign data
         data['private_key'] = privKey
-        data['public_key']['x'] = pubKey.x
-        data['public_key']['y'] = pubKey.y
+        data['public_key']['x'] = str(pubKey.x)
+        data['public_key']['y'] = str(pubKey.y)
         # Return data
         return data
 
