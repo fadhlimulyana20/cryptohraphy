@@ -5,7 +5,7 @@ from ntru import *
 
 
 @app.route('/ntru/generate-key', methods=['POST'])
-def generateKey():
+def generate_ntru_key():
     data = {
         "public_key": {
             "n": {},

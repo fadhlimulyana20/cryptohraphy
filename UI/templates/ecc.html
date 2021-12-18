@@ -146,13 +146,13 @@
       const encryptBtn = document.getElementById("encrypt");
       encryptBtn.addEventListener("click", async function () {
         try {
-          const publicKeyNTextArea = document.getElementById("public_key_n");
-          const publicKeyETextArea = document.getElementById("public_key_e");
+          const publicKeyXTextArea = document.getElementById("public_key_x");
+          const publicKeyYTextArea = document.getElementById("public_key_y");
           const plainTextArea = document.getElementById("plain");
           console.log(plainTextArea.value);
-          const res = await axios.post("/rsa/encrypt", {
-            n: publicKeyNTextArea.innerHTML,
-            e: publicKeyETextArea.innerHTML,
+          const res = await axios.post("/ecc/encrypt", {
+            n: publicKeyXTextArea.innerHTML,
+            e: publicKeyYTextArea.innerHTML,
             plain: plainTextArea.value,
           });
           if (res.status == 200) {
@@ -168,14 +168,14 @@
       const decryptBtn = document.getElementById("decrypt");
       decryptBtn.addEventListener("click", async function () {
         try {
-          const publicKeyNTextArea = document.getElementById("public_key_n");
-          const publicKeyETextArea = document.getElementById("public_key_e");
+          const publicKeyXTextArea = document.getElementById("public_key_x");
+          const publicKeyYTextArea = document.getElementById("public_key_y");
           const privateKeyTextArea = document.getElementById("private_key");
           const encryptedTextArea = document.getElementById("encrypted");
           console.log(encryptedTextArea.value);
-          const res = await axios.post("/rsa/decrypt", {
-            n: publicKeyNTextArea.innerHTML,
-            e: publicKeyETextArea.innerHTML,
+          const res = await axios.post("/ecc/decrypt", {
+            n: publicKeyXTextArea.innerHTML,
+            e: publicKeyYTextArea.innerHTML,
             private_key: privateKeyTextArea.innerHTML,
             encrypted: encryptedTextArea.value,
           });

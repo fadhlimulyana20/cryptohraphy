@@ -4,7 +4,7 @@ from flask import render_template, request
 from rsa import decrypt_data, encrypt_data, generate_private_key, generate_public_key
 
 @app.route('/rsa/generate-key', methods=['POST'])
-def generateKey():
+def generate_rsa_key():
     data = {
         "public_key": {
             "n": {},
@@ -27,7 +27,7 @@ def generateKey():
         return data
     
 @app.route('/rsa/encrypt', methods=['POST'])
-def encrypt():
+def encrypt_rsa():
     request_data = request.get_json()
     res = {
         "encrypted": {}
@@ -46,7 +46,7 @@ def encrypt():
         return res
 
 @app.route('/rsa/decrypt', methods=['POST'])
-def decrypt():
+def decrypt_rsa():
     request_data = request.get_json()
     res = {
         "decrypted": {}
