@@ -34,4 +34,4 @@ if __name__=="__main__":
     a = 7
     m = 3120
     # print(mod_inverse(a, m))
-    print(naive_mod_inverse(a,m))
+    print(naive_mod_inverse(59,1120))
