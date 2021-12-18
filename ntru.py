@@ -2,6 +2,9 @@
 import math
 from math import gcd
 import poly
+import numpy as np
+from sympy.abc import x
+from sympy import ZZ, Poly
 
 
 class Ntru:
@@ -45,7 +48,11 @@ class Ntru:
     def setPublicKey(self, public_key):
         self.h = public_key
 
-    def encrypt(self, message, randPol):
+    def encrypt(self, plain, randPol):
+        input_arr = np.unpackbits(np.frombuffer(bytes(plain, 'utf-8'), dtype=np.uint8))
+        message = np.trim_zeros(input_arr, 'b')
+        print(input_arr)
+        # message = plain
         if self.h != None:
             e_tilda = poly.addPoly(poly.multPoly(
                 poly.multPoly([self.p], randPol), self.h), message)
@@ -66,12 +73,19 @@ class Ntru:
         return poly.trim(tmp)
 
     def decrypt(self, encryptedMessage):
+        # BELUM BISA GAN
         tmp = self.reModulo(poly.multPoly(
             self.f, encryptedMessage), self.D, self.q)
         centered = poly.cenPoly(tmp, self.q)
+        print(centered)
         m1 = poly.multPoly(self.f_p, centered)
+        print(m1)
         tmp = self.reModulo(m1, self.D, self.p)
-        return poly.trim(tmp)
+        print(tmp)
+        output = np.packbits(poly.trim(tmp))
+        print(poly.trim(tmp))
+        print(output)
+        return "".join([chr(value) for value in poly.trim(tmp)])
 
     def reModulo(self, num, div, modby):
         [_, remain] = poly.divPoly(num, div)

@@ -23,12 +23,12 @@ Alice.setPublicKey(pub_key)
 
 
 # msg=[1,0,1,0,1,1,1]
-msg0 = "Hello World!"
-msg1 = list(msg0.encode('ascii'))
-msg2 = tuple(msg1)
-print(msg2)
-msg = np.poly(msg2)
-
+# msg0 = "Hello World!"
+# msg1 = list(msg0.encode('ascii'))
+# msg2 = tuple(msg1)
+# print(msg2)
+# msg = np.poly(msg2)
+msg = "Hello World"
 
 print ("Alice's Original Message   : ",msg)
 ranPol=[-1,-1,1,1]
