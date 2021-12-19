@@ -13,7 +13,7 @@
   </head>
   <body>
     <div class="container">
-      <h2>ECC Encryption and Decryption</h2>
+      <h2>ECC</h2>
       <hr />
       <div class="arow">
         <div class="column">
@@ -178,7 +178,7 @@
             ciphertextPubKeyY.value = res.data.ciphertextPubKey.y
           }
         } catch (e) {
-          alert(e);
+          alert("Key has not been generated");
         }
       });
 
@@ -214,7 +214,7 @@
             resultTextArea.innerHTML = res.data.decrypted
           }
         } catch (e) {
-          alert(e);
+          alert("Key has not been generated");
         }
       });
     </script>
