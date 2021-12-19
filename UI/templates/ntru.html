@@ -162,16 +162,25 @@
       const generateKeyBtn = document.getElementById("generate_key");
       generateKeyBtn.addEventListener("click", async function () {
         try {
-          const res = await axios.post("/rsa/generate-key");
+          const res = await axios.post("/ntru/generate-key");
           if (res.status == 200) {
-            const privateKeyTextArea = document.getElementById("private_key");
-            privateKeyTextArea.innerHTML = res.data.private_key;
+            const publicKeyTextArea = document.getElementById("public_key");
+            publicKeyTextArea.innerHTML = res.data.public_key.key;
 
             const publicKeyNTextArea = document.getElementById("public_key_n");
             publicKeyNTextArea.innerHTML = res.data.public_key.n;
 
-            const publicKeyETextArea = document.getElementById("public_key_e");
-            publicKeyETextArea.innerHTML = res.data.public_key.e;
+            const publicKeyPTextArea = document.getElementById("public_key_p");
+            publicKeyPTextArea.innerHTML = res.data.public_key.p;
+
+            const publicKeyQTextArea = document.getElementById("public_key_q");
+            publicKeyQTextArea.innerHTML = res.data.public_key.q;
+
+            const poliFTextArea = document.getElementById("poli_f");
+            poliFTextArea.innerHTML = res.data.poli.f;
+
+            const poliGTextArea = document.getElementById("poli_g");
+            poliGTextArea.innerHTML = res.data.poli.g;
           }
         } catch (e) {
           alert(e);
@@ -182,21 +191,29 @@
       const encryptBtn = document.getElementById("encrypt");
       encryptBtn.addEventListener("click", async function () {
         try {
+          const publicKeyTextArea = document.getElementById("public_key");
           const publicKeyNTextArea = document.getElementById("public_key_n");
-          const publicKeyETextArea = document.getElementById("public_key_e");
+          const publicKeyPTextArea = document.getElementById("public_key_p");
+          const publicKeyQTextArea = document.getElementById("public_key_q");
+          const poliFTextArea = document.getElementById("poli_f");
+          const poliGTextArea = document.getElementById("poli_g");
           const plainTextArea = document.getElementById("plain");
           console.log(plainTextArea.value);
-          const res = await axios.post("/rsa/encrypt", {
+          const res = await axios.post("/ntru/encrypt", {
             n: publicKeyNTextArea.innerHTML,
-            e: publicKeyETextArea.innerHTML,
+            p: publicKeyPTextArea.innerHTML,
+            q: publicKeyQTextArea.innerHTML,
+            key: publicKeyTextArea.innerHTML,
+            poli_f: poliFTextArea.innerHTML,
+            poli_g: poliGTextArea.innerHTML,
             plain: plainTextArea.value,
           });
           if (res.status == 200) {
             const resultTextArea = document.getElementById("res");
-            resultTextArea.innerHTML = res.data.encrypted.join(" ");
+            resultTextArea.innerHTML = res.data.encrypted;
           }
         } catch (e) {
-          alert("Key has not been generated");
+          alert(e);
         }
       });
 
@@ -204,20 +221,26 @@
       const decryptBtn = document.getElementById("decrypt");
       decryptBtn.addEventListener("click", async function () {
         try {
+          const publicKeyTextArea = document.getElementById("public_key");
           const publicKeyNTextArea = document.getElementById("public_key_n");
-          const publicKeyETextArea = document.getElementById("public_key_e");
-          const privateKeyTextArea = document.getElementById("private_key");
-          const encryptedTextArea = document.getElementById("encrypted");
-          console.log(encryptedTextArea.value);
-          const res = await axios.post("/rsa/decrypt", {
+          const publicKeyPTextArea = document.getElementById("public_key_p");
+          const publicKeyQTextArea = document.getElementById("public_key_q");
+          const poliFTextArea = document.getElementById("poli_f");
+          const poliGTextArea = document.getElementById("poli_g");
+          const plainTextArea = document.getElementById("plain");
+          console.log(plainTextArea.value);
+          const res = await axios.post("/ntru/decrypt", {
             n: publicKeyNTextArea.innerHTML,
-            e: publicKeyETextArea.innerHTML,
-            private_key: privateKeyTextArea.innerHTML,
-            encrypted: encryptedTextArea.value,
+            p: publicKeyPTextArea.innerHTML,
+            q: publicKeyQTextArea.innerHTML,
+            key: publicKeyTextArea.innerHTML,
+            poli_f: poliFTextArea.innerHTML,
+            poli_g: poliGTextArea.innerHTML,
+            plain: plainTextArea.value,
           });
           if (res.status == 200) {
             const resultTextArea = document.getElementById("res");
-            resultTextArea.innerHTML = res.data.decrypted.join("");
+            resultTextArea.innerHTML = res.data.decrypted;
           }
         } catch (e) {
           alert("Key has not been generated");

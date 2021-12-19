@@ -49,33 +49,35 @@ class Ntru:
         self.h = public_key
 
     def encrypt(self, plain, randPol):
-        # list_input = []
+        list_input = []
 
-        # for char in plain:
-            # input_arr = np.unpackbits(np.frombuffer(bytes(char, 'utf-8'), dtype=np.uint8))
-            # message = np.trim_zeros(list(input_arr), 'b')
-            # list_input.append(message)
-        #     print("Message                    : ", message)
-        # print("Message bit: ", list(list_input))
+        for char in plain:
+            input_arr = np.unpackbits(np.frombuffer(bytes(char, 'utf-8'), dtype=np.uint8))
+            message = np.trim_zeros(list(input_arr), 'b')
+            list_input.append(message)
+            print("Message                    : ", message)
+        print("Message bit: ", list(list_input))
 
-        input_arr = np.unpackbits(np.frombuffer(bytes(plain, 'utf-8'), dtype=np.uint8))
-        message = np.trim_zeros(list(input_arr), 'b')
-        print("Message                    : ", message)
+        # input_arr = np.unpackbits(np.frombuffer(bytes(plain, 'utf-8'), dtype=np.uint8))
+        # message = np.trim_zeros(list(input_arr), 'b')
+        # print("Message                    : ", message)
 
         if self.h != None:
-            # list_e = []
-            # for char in list_input:
-            #     e_tilda = poly.addPoly(poly.multPoly(
-            #         poly.multPoly([self.p], randPol), self.h), char)
-            #     e = self.reModulo(e_tilda, self.D, self.q)
-            #     print("e: ", e)
-            #     print("e_tilda: ", e_tilda)
-            #     list_e.append(e)
-            # return list_e
-            e_tilda = poly.addPoly(poly.multPoly(
-                    poly.multPoly([self.p], randPol), self.h), message)
-            e = self.reModulo(e_tilda, self.D, self.q)
-            return e
+            list_e = []
+            for char in list_input:
+                e_tilda = poly.addPoly(poly.multPoly(
+                    poly.multPoly([self.p], randPol), self.h), char)
+                e = self.reModulo(e_tilda, self.D, self.q)
+                list_e.append(e)
+            return {
+                "list_input": list_input,
+                "list_e": list_e
+            }
+
+            # e_tilda = poly.addPoly(poly.multPoly(
+            #         poly.multPoly([self.p], randPol), self.h), message)
+            # e = self.reModulo(e_tilda, self.D, self.q)
+            # return e
         else:
             print("Cannot Encrypt Message Public Key is not set!")
             print("Cannot Set Public Key manually or Generate it")
@@ -91,30 +93,30 @@ class Ntru:
         return poly.trim(tmp)
 
     def decrypt(self, encryptedMessage):
-        # list_output = []
-        # for char in encryptedMessage:
-        #     tmp = self.reModulo(poly.multPoly(
-        #         self.f, char), self.D, self.q)
-        #     centered = poly.cenPoly(tmp, self.q)
-        #     m1 = poly.multPoly(self.f_p, centered)
-        #     tmp = self.reModulo(m1, self.D, self.p)
-        #     output = tmp
-        #     print(output)
-        #     plain = bytearray(np.packbits(output)).decode('utf-8', 'ignore').strip("\x00")
-        #     list_output.append(plain)
-        # print(list_output)
-        # return ''.join(str(e) for e in list_output)
+        list_output = []
+        for char in encryptedMessage:
+            # tmp = self.reModulo(poly.multPoly(
+            #     self.f, char), self.D, self.q)
+            # centered = poly.cenPoly(tmp, self.q)
+            # m1 = poly.multPoly(self.f_p, centered)
+            # tmp = self.reModulo(m1, self.D, self.p)
+            # output = tmp
+            # print(output)
+            plain = bytearray(np.packbits(char)).decode('utf-8', 'ignore').strip("\x00")
+            list_output.append(plain)
+        print(list_output)
+        return ''.join(str(e) for e in list_output)
 
         
-        tmp = self.reModulo(poly.multPoly(
-                self.f, encryptedMessage), self.D, self.q)
-        centered = poly.cenPoly(tmp, self.q)
-        m1 = poly.multPoly(self.f_p, centered)
-        tmp = self.reModulo(m1, self.D, self.p)
-        output = tmp
-        print(output)
-        plain = bytearray(np.packbits(output)).decode('utf-8', 'ignore').strip("\x00")
-        return str(plain)
+        # tmp = self.reModulo(poly.multPoly(
+        #         self.f, encryptedMessage), self.D, self.q)
+        # centered = poly.cenPoly(tmp, self.q)
+        # m1 = poly.multPoly(self.f_p, centered)
+        # tmp = self.reModulo(m1, self.D, self.p)
+        # output = tmp
+        # print(output)
+        # plain = bytearray(np.packbits(output)).decode('utf-8', 'ignore').strip("\x00")
+        # return str(plain)
 
     def reModulo(self, num, div, modby):
         [_, remain] = poly.divPoly(num, div)
