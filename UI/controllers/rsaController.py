@@ -1,5 +1,6 @@
 from UI import app
 from flask import render_template, request
+from Crypto.Util import number
 
 from rsa import decrypt_data, encrypt_data, generate_private_key, generate_public_key
 
@@ -14,8 +15,8 @@ def generate_rsa_key():
     }
     if request.method == "POST":
         # Memilih 2 bilangan prima yang besar
-        p = 271
-        q = 173
+        p = number.getPrime(10)
+        q = number.getPrime(10)
 
         public_key = generate_public_key(p, q)
         private_key = generate_private_key(p, q, public_key[1])
