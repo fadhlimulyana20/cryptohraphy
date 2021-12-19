@@ -1,6 +1,6 @@
 # Description of this example is provided in NTRU.md
 
-from ntru import *
+from old_ntru import *
 import numpy as np
 
 # Bob
